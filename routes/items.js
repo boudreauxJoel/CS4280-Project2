@@ -45,7 +45,7 @@ router.post('/update/:itemId', async (req, res) => {
             if (err) {
                 res.send(err);
             } else {
-                res.redirect('/items/all');
+                res.redirect('/list.html');
             }
         }).exec();
     }
@@ -58,7 +58,7 @@ router.get('/remove/:itemId', async (req, res) => {
             if (err) {
                 res.send(err);
             } else {
-                res.redirect('/list.html');
+                res.send();
             }
         }).exec();
     }

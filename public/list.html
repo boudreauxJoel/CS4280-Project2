@@ -6,6 +6,7 @@
 <link href="styles.css" type="text/css" rel="stylesheet" />
 <!-- Raleway font -->
 <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;800&display=swap" /> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 </head>
 <body>
@@ -38,8 +39,8 @@
                             <label class="textareaInput">Item Description:
                                 <br/><textarea name="description"></textarea>
                             </label><br/>
-                            <label class="textareaInput">Due Date:
-                                <br/><input name = "date" type = "date"/>
+                            <label class="dateInput">Due Date:
+                                <br/><input id = "dateInputPicker" name = "date" type = "date"/>
                             </label><br/>
                             <input id="submit" type="submit" value="Add Item"/>
                         </form>
@@ -77,12 +78,16 @@
                     updateBtn.id = items[i].name;
                     updateBtn.classList.add("editBtn");
                     updateBtn.classList.add("updateBtn");
+
                     let removeBtn = document.createElement("button");
                     removeBtn.type = "button";
-                    removeBtn.textContent = "Remove Item";
                     removeBtn.name = items[i]['_id'];
                     removeBtn.classList.add("editBtn");
                     removeBtn.classList.add("removeBtn");
+                    let removeIcon = document.createElement("i");
+                    removeIcon.classList.add("fa");
+                    removeIcon.classList.add("fa-times");
+                    removeBtn.append(removeIcon);
 
                     collapseDiv.append(updateBtn);
                     collapseDiv.append(removeBtn);
@@ -116,22 +121,37 @@
                             updateField.querySelector('.addItemForm').querySelector('#form').setAttribute('action', "/items/update/" + editButtonList[k].name);
                             updateField.querySelector('.addItemForm').querySelector('#form').setAttribute('method', "post");
                             updateField.querySelector('.addItemForm').querySelector('#form').querySelector('#submit').setAttribute('value', 'Update Item');
+                            let cancelBtn = document.createElement("button");
+                            cancelBtn.type = "button";
+                            cancelBtn.textContent = "Cancel";
+                            cancelBtn.id = "cancelBtn";
+                            cancelBtn.setAttribute('onclick', 'return this.parentNode.remove();')
+                            updateField.prepend(cancelBtn);
                             inputField.after(updateField);
                         });
                     } else {
                         editButtonList[k].addEventListener("click", () => {
                             console.log(editButtonList[k].name);
                             $.get('items/remove/' + editButtonList[k].name);
+                            window.location.assign(window.location.href);
                         });
                     }
                 }
+                let today = new Date();
+                let dd = today.getDate();
+                let mm = today.getMonth()+1; //January is 0!
+                let yyyy = today.getFullYear();
+                if(dd<10){
+                        dd='0'+dd
+                    } 
+                    if(mm<10){
+                        mm='0'+mm
+                    } 
 
-            });
-
-            
+                today = yyyy+'-'+mm+'-'+dd;
+                document.getElementById("dateInputPicker").setAttribute("min", today);
+            });            
         });
-
-        
     </script>
 </body>
 </html>

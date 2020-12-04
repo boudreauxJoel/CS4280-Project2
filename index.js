@@ -8,7 +8,7 @@ const express = require('express');
 const session = require('express-session');
 const { User } = require('./models/user');
 const app = express();
-const url = "34.83.19.246:27017/project2";
+const url = "mongodb://34.83.19.246:27017/project2";
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false })
     .then(() => console.log("Connected..."))
