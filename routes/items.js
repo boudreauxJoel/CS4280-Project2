@@ -38,13 +38,14 @@ router.get('/all', async (req, res) => {
     }
 });
 
-router.put('/update/:itemId', async (req, res) => {
+router.post('/update/:itemId', async (req, res) => {
     if (req.session.user) {
-        await Item.findByIdAndUpdate(req.params.itemId, { name: req.body.name, description: req.body.description, date: req.body.date }, { omitUndefined: true, new: true }, (err, result) => {
+        let oldItem = Item.findOne({ _id: req.params.itemId });
+        await Item.findByIdAndUpdate(req.params.itemId, { name: req.body.name || oldItem.name, description: req.body.description || oldItem.description, date: req.body.date || oldItem.date }, { omitUndefined: true, new: true }, (err, result) => {
             if (err) {
                 res.send(err);
             } else {
-                res.send(result);
+                res.redirect('/items/all');
             }
         }).exec();
     }
@@ -57,7 +58,7 @@ router.get('/remove/:itemId', async (req, res) => {
             if (err) {
                 res.send(err);
             } else {
-                res.send(result);
+                res.redirect('/list.html');
             }
         }).exec();
     }

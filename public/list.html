@@ -28,10 +28,10 @@
                         <!-- This is where items will populate -->
 					</div><!--listItems-->
 				</fieldset>
-				<fieldset class="addFieldset">
-					<legend>Add Item</legend>
+				<fieldset id = "addFieldSet" class="addFieldset">
+					<legend class = "legend">Add Item</legend>
 					<div class="addItemForm">
-                        <form action = "/items" method = "post">
+                        <form id = "form" class = "form" action = "/items" method = "post">
                             <label class="input">Item Name:
                                 <br/><input type="text" name="name" placeholder="Item Name" required="required"/>
                             </label><br/>
@@ -39,7 +39,7 @@
                                 <br/><textarea name="description"></textarea>
                             </label><br/>
                             <label class="textareaInput">Due Date:
-                                <br/><textarea name="date"></textarea>
+                                <br/><input name = "date" type = "date"/>
                             </label><br/>
                             <input id="submit" type="submit" value="Add Item"/>
                         </form>
@@ -74,6 +74,7 @@
                     updateBtn.type = "button";
                     updateBtn.textContent = "Update Item";
                     updateBtn.name = items[i]['_id'];
+                    updateBtn.id = items[i].name;
                     updateBtn.classList.add("editBtn");
                     updateBtn.classList.add("updateBtn");
                     let removeBtn = document.createElement("button");
@@ -107,7 +108,15 @@
                 for (let k = 0; k < editButtonList.length; k++) {
                     if(editButtonList[k].classList.contains("updateBtn")) {
                         editButtonList[k].addEventListener("click", () => {
-
+                            let inputField = document.getElementById("addFieldSet");
+                            let updateField = inputField.cloneNode(true);
+                            updateField.setAttribute( 'id', "updateFieldSet");
+                            updateField.querySelector('.legend').innerHTML = "Update " + editButtonList[k].id;
+                            updateField.querySelector('.addItemForm').querySelector('#form').querySelector('.input').querySelector('input').removeAttribute('required');
+                            updateField.querySelector('.addItemForm').querySelector('#form').setAttribute('action', "/items/update/" + editButtonList[k].name);
+                            updateField.querySelector('.addItemForm').querySelector('#form').setAttribute('method', "post");
+                            updateField.querySelector('.addItemForm').querySelector('#form').querySelector('#submit').setAttribute('value', 'Update Item');
+                            inputField.after(updateField);
                         });
                     } else {
                         editButtonList[k].addEventListener("click", () => {
