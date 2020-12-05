@@ -65,9 +65,15 @@
                     descP.textContent = items[i].description;
                     let dateP = document.createElement("p");
                     dateP.textContent = items[i].date;
+                    let dateCountP = document.createElement("p");
+                    let dueDate = new Date(items[i].date);
+                    let today = new Date();
+                    let timeLeft = Math.ceil((dueDate.getTime() - today.getTime()) / (1000 * 3600 * 24));
+                    dateCountP.textContent =  timeLeft + (timeLeft === 1? " day left": "days left");
 
                     collapseDiv.append(descP);
                     collapseDiv.append(dateP);
+                    collapseDiv.append(dateCountP);
 
                     let br = document.createElement("br");
 

@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
 
 router.get('/all', async (req, res) => {
     if (req.session.user) {
-        let items = await Item.find({ email: req.session.user.email }, { email: 0, __v: 0 }).sort({ date: -1 }).exec();
+        let items = await Item.find({ email: req.session.user.email }, { email: 0, __v: 0 }).sort({ date: 1 }).exec();
         res.send(items);    
     }
 });

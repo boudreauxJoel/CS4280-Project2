@@ -29,7 +29,7 @@ router.post('/', async (req, res) => {
         user.password = await bcrypt.hash(user.password, salt);
         await user.save();
         req.session.user = user.dataValues;
-        res.redirect('items.html');
+        res.redirect('list.html');
     }
 });
 
